@@ -1,8 +1,8 @@
-
 x_player = False
 o_player = False
 game_board = ['#','1','2','3','4','5','6','7','8','9']
 exit = False
+
 
 def display(board):
     board_length = len(board)
@@ -24,7 +24,7 @@ def display(board):
 def player_input(player1, player2):
     player_choice = 'WRONG'
     while player_choice not in ['X', 'O', 'Q']:        
-        player_choice = input('Who would you like to go first X or O? ')
+        player_choice = input('\nWho would you like to go first X or O? ')
         player_choice = player_choice.upper()
         if player_choice not in ['X', 'O']:
             print('\nInvalid choice select either X or O\n')
@@ -45,9 +45,10 @@ def select_square():
     global game_board
     global exit
     choice = 'WRONG'
-    while choice not in range(0,10) or exit == False:
+    refresh_flag = False
+    while choice not in range(0,10) or exit == False or refresh_flag == False:
             if x_player == True:
-                choice = input('Player X select what square you would like to place (1-9 or Q to exit): ')
+                choice = input('Player X select what square you would like to place (1-9)\nYou may also enter Q to quit or R to refresh the board: ')
                 #choice = int(choice)
                 if choice not in game_board and choice not in ['Q', 'q',]:
                     print('\nYour selection is invalid')
@@ -57,13 +58,17 @@ def select_square():
                 else:
                     return int(choice)
             if o_player == True: 
-                choice = input('Player O select what square you would like to place (1-9 or Q to exit): ')
+                choice = input('Player O select what square you would like to place (1-9)\nYou may also enter Q to quit or R to refresh the board: ')
                 #choice = int(choice)
-                if choice not in game_board:
-                    print('\nYour selection is invalid')
-                elif choice in ['Q', 'q']:
+                if choice in ['Q', 'q']:
                     exit = True
                     break
+                elif choice in ['R', 'r']:
+                    refresh_board()
+                    refresh_flag = True
+                    break
+                elif choice not in game_board:
+                    print('\nYour selection is invalid')
                 else:
                     return int(choice)
                 
@@ -88,7 +93,16 @@ def place_square(location):
                 o_player = False
         else:
             pass
-        
+
+def refresh_board(): 
+    global x_player
+    global o_player
+    global game_board
+    x_player = False
+    o_player = False
+    game_board = ['#','1','2','3','4','5','6','7','8','9']
+    print('\nBoard has been refreshed!')
+    x_player,o_player = player_input(x_player, o_player)      
             
 
 
