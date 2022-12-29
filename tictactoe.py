@@ -102,9 +102,40 @@ def refresh_board():
     o_player = False
     game_board = ['#','1','2','3','4','5','6','7','8','9']
     print('\nBoard has been refreshed!')
-    x_player,o_player = player_input(x_player, o_player)      
-            
+    x_player,o_player = player_input(x_player, o_player)
 
+def winner_detection(current_board):
+    x_win = ['X', 'X', 'X']
+    o_win = ['O', 'O', 'O']
+    diag1 = [1, 5, 9]
+    diag2 = [7, 5, 3]
+    x_diag1 = [current_board[i] for i in diag1]
+    x_diag2 = [current_board[i] for i in diag2]
+    for i in range(len(current_board) - len(x_win) + 1):
+        if i == 2 or i == 3 or i == 6:
+            continue
+        elif current_board[i:i+len(x_win)] == x_win:
+                print('\nX has won!')
+                refresh_board()
+                break
+        elif x_diag1 == x_win or x_diag2 == x_win:
+                print('\nX has won!')
+                refresh_board()
+                break
+    for i in range(len(current_board) - len(o_win) + 1):
+        if i == 2 or i == 3 or i == 6:
+            continue
+        elif current_board[i:i+len(o_win)] == o_win:
+                print('\nO has won!')
+                refresh_board()
+                break
+        elif x_diag1 == o_win or x_diag2 == o_win:
+                print('\nO has won!')
+                refresh_board()
+                break   
+
+
+    
 
 def main():
     global x_player
@@ -118,4 +149,5 @@ def main():
         player_choice = select_square()
         # print(player_choice)
         place_square(player_choice)
+        winner_detection(game_board)
 main()
